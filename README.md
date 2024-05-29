@@ -10,7 +10,7 @@ n, m = map(int, input().split())
 a = (n * m) - 1
 print(a)
 ```
-### 손가락자르기
+### 손가락 게임
 손가락 게임은 두 플레이어가 동시에 손가락을 일정 개수 펴서 특정 표식을 만들어 상성을 겨루는 게임이다. 플레이어는 
 $0$개의 손가락을 펴서 '바위' 표식(즉, 손가락을 피지 않은 상태), 
 $2$개의 손가락을 펴서 '가위' 표식, 
@@ -46,5 +46,119 @@ int main() {
     return 0;
 }
 ```
+### 과민성 대장 증후군
+상원이는 과민성 대장 증후군을 앓고 있다. 과민성 대장 증후군의 원인은 스트레스!
+
+상원이의 
+$N$일 동안의 스트레스 변화량 
+$A_1,\cdots ,A_N$이 주어진다. 
+$A_i\ge 0$ 이면 
+$i$번째 날에 
+$A_i$ 만큼 스트레스가 쌓이고, 
+$A_i<0$ 이면 
+$i$번째 날에 
+$-A_i$ 만큼 스트레스가 해소된다. 단, 변화를 관찰하기 시작한 시점의 스트레스 양은 
+$0$이며, 누적된 스트레스 양보다 해소하는 스트레스 양이 더 많을 경우 스트레스는 
+$0$이 될 때까지만 감소한다.
+
+상원이는 스트레스가 
+$M$ 이상 쌓인 날에 복통을 겪게 될 때, 상원이가 며칠 동안 복통에 시달리게 되는지 알아보자.
+```
+#include <stdio.h>
+
+int main() {
+    int n, m;
+    scanf("%d %d", &n, &m);
+
+    int s = 0;
+    int p = 0;
+    int c;
+    
+    for(int i = 0; i < n; i++) {
+        scanf("%d", &c);
+        s += c;
+        if(s < 0){
+            s = 0;
+        }else if(s >= m){
+            p++;
+    }
+    }
+
+    printf("%d\n", p);
+    return 0;
+}
+```
+### 버블버블
+민구는 원소의 개수가 
+$N$개이고 값이 서로 다른 정수 배열 
+$A$를 오름차순으로 만들고 싶다.
+
+배열의 
+$i$번째 원소와 
+$i+1$번째 원소끼리 서로 위치를 바꿀 수 있고, 정렬 과정 중 언제든지 최대 딱 한 번 배열 전체의 순서를 뒤집을 수 있다.
+
+원소를 교환하는 것, 배열 전체를 뒤집는 것 모두 
+$1$번의 횟수로 계산한다.
+
+주어진 배열 
+$A$를 오름차순으로 만드는데 필요한 최소한의 횟수를 구하여라.
+```
+#include <stdio.h>
+
+void reverse(int* arr, int n) {
+    for (int i = 0; i < n / 2; i++) {
+        int temp = arr[i];
+        arr[i] = arr[n - i - 1];
+        arr[n - i - 1] = temp;
+    }
+}
+
+int bubbleSort(int* arr, int n) {
+    int count = 0;
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+                count++;
+            }
+        }
+    }
+    return count;
+}
+
+int isSorted(int* arr, int n) {
+    for (int i = 1; i < n; i++) {
+        if (arr[i - 1] > arr[i]) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    int n;
+    scanf("%d", &n);
+    
+    int arr[n], ac[n];
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+        ac[i] = arr[i];
+    }
+    
+    int tmdnlcl = bubbleSort(arr, n);
+    
+    reverse(ac, n);
+    int dlrpanj = bubbleSort(ac, n) + 1;
+    
+    int result = tmdnlcl < dlrpanj ? tmdnlcl : dlrpanj;
+    
+    printf("%d\n", result);
+    
+    return 0;
+}
+```
+
 
 
